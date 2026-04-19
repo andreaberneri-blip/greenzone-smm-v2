@@ -2207,10 +2207,21 @@ Usa solo profili italiani reali e verificabili. Non inventare handle.`;
       })
     });
 
-    const data = await resp.json();
+    let data;
+    const rawText = await resp.text();
+    try {
+      data = JSON.parse(rawText);
+    } catch(parseErr) {
+      throw new Error("Risposta non valida dal server: " + rawText.slice(0, 200));
+    }
 
-    if (!resp.ok || data.error) {
-      throw new Error(data.error || "Errore API: " + resp.status);
+    if (!resp.ok) {
+      const errDetail = data.error?.message || data.error || rawText.slice(0, 300);
+      throw new Error("API error " + resp.status + ": " + errDetail);
+    }
+
+    if (data.error) {
+      throw new Error(typeof data.error === "string" ? data.error : JSON.stringify(data.error));
     }
 
     const txt = data.content?.find(b => b.type === "text")?.text || "";
@@ -2235,10 +2246,10 @@ Usa solo profili italiani reali e verificabili. Non inventare handle.`;
       </div>`;
 
   } catch(e) {
+    const errMsg = e && e.message ? e.message : JSON.stringify(e);
     document.getElementById("persona-output").innerHTML = `
       <div style="background:var(--coral-bg);border:1px solid rgba(139,37,0,0.15);border-radius:var(--r);padding:20px;font-size:13px;color:var(--coral)">
-        <strong>Errore:</strong> ${e.message}<br><br>
-        Verifica che la variabile <code>ANTHROPIC_API_KEY</code> sia impostata in Netlify e che il sito sia stato ri-deployato.
+        <strong>Errore tecnico:</strong> ${errMsg}
       </div>`;
   }
 }
@@ -2247,7 +2258,6 @@ Usa solo profili italiani reali e verificabili. Non inventare handle.`;
 /* ══════════════ INIT ══════════════ */
 renderKw();
 initProfili();
-renderPersona();
 renderChi();
 </script>
 </body>
