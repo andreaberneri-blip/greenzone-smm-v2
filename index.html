@@ -2253,16 +2253,22 @@ Messaggio 4-5 righe, umano e specifico sul prodotto. Usa [NOME] come placeholder
     // Render the result
     const rendered = txt
       .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/CERCA: ([^→\n]+)→ ([^\n]+)/g, (m, q, desc) => {
-        const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(q.trim());
-        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green);text-decoration:none;padding:5px 12px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Cerca su Instagram: ${q.trim()} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+      .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text)">$1</strong>')
+      .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
+      .replace(/^(\d+\.) (.+)$/gm, '<div style="margin:5px 0;font-size:13px;color:var(--text2)"><strong style="color:var(--text)">$1</strong> $2</div>')
+      .replace(/CERCA: ([^→\n<]+?)(?:→|—) ?([^\n<]*)/g, (m, q, desc) => {
+        const clean = q.trim().replace(/followers di /, "").replace(/location /, "").replace(/"/g,"").replace(/'/g,"");
+        const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(clean);
+        return `<div style="margin:8px 0"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:6px 14px;border-radius:20px;background:var(--green)">&#128269; Cerca: ${clean} ↗</a>${desc ? '<span style="font-size:11px;color:var(--text3);margin-left:8px">' + desc.trim() + '</span>' : ''}</div>`;
       })
-      .replace(/HASHTAG: (#[\w]+) → ([^\n]+)/g, (m, tag, desc) => {
+      .replace(/HASHTAG: (#[\w]+)(?:→|—) ?([^\n<]*)/g, (m, tag, desc) => {
         const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
-        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green2);text-decoration:none;padding:5px 12px;border:1px solid rgba(45,122,79,0.25);border-radius:20px;background:var(--green-light)">${tag} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+        return `<div style="margin:8px 0"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:6px 14px;border-radius:20px;background:var(--green2)">${tag} ↗</a>${desc ? '<span style="font-size:11px;color:var(--text3);margin-left:8px">' + desc.trim() + '</span>' : ''}</div>`;
       })
-      .replace(/(#[\w]{3,})/g, '<span style="font-weight:600;color:var(--green2)">$1</span>')
+      .replace(/(^|[^\w/])(#[a-zA-Z][\w]{2,})/gm, (m, pre, tag) => {
+        const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
+        return pre + `<a href="${url}" target="_blank" style="font-weight:600;color:var(--green2);text-decoration:none">${tag}</a>`;
+      })
       .replace(/\n\n/g, '<br>')
       .replace(/\n/g, '<br>');
 
@@ -2339,16 +2345,22 @@ Messaggio 4-5 righe, umano e specifico. Usa [NOME] come placeholder. Non deve se
     const txt = data.content?.find(b => b.type === "text")?.text || "";
     const rendered = txt
       .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/CERCA: ([^→\n]+)→ ([^\n]+)/g, (m, q, desc) => {
-        const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(q.trim());
-        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green);text-decoration:none;padding:5px 12px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Cerca su Instagram: ${q.trim()} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+      .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text)">$1</strong>')
+      .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
+      .replace(/^(\d+\.) (.+)$/gm, '<div style="margin:5px 0;font-size:13px;color:var(--text2)"><strong style="color:var(--text)">$1</strong> $2</div>')
+      .replace(/CERCA: ([^→\n<]+?)(?:→|—) ?([^\n<]*)/g, (m, q, desc) => {
+        const clean = q.trim().replace(/followers di /, "").replace(/location /, "").replace(/"/g,"").replace(/'/g,"");
+        const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(clean);
+        return `<div style="margin:8px 0"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:6px 14px;border-radius:20px;background:var(--green)">&#128269; Cerca: ${clean} ↗</a>${desc ? '<span style="font-size:11px;color:var(--text3);margin-left:8px">' + desc.trim() + '</span>' : ''}</div>`;
       })
-      .replace(/HASHTAG: (#[\w]+) → ([^\n]+)/g, (m, tag, desc) => {
+      .replace(/HASHTAG: (#[\w]+)(?:→|—) ?([^\n<]*)/g, (m, tag, desc) => {
         const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
-        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green2);text-decoration:none;padding:5px 12px;border:1px solid rgba(45,122,79,0.25);border-radius:20px;background:var(--green-light)">${tag} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+        return `<div style="margin:8px 0"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:6px 14px;border-radius:20px;background:var(--green2)">${tag} ↗</a>${desc ? '<span style="font-size:11px;color:var(--text3);margin-left:8px">' + desc.trim() + '</span>' : ''}</div>`;
       })
-      .replace(/(#[\w]{3,})/g, '<span style="font-weight:600;color:var(--green2)">$1</span>')
+      .replace(/(^|[^\w/])(#[a-zA-Z][\w]{2,})/gm, (m, pre, tag) => {
+        const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
+        return pre + `<a href="${url}" target="_blank" style="font-weight:600;color:var(--green2);text-decoration:none">${tag}</a>`;
+      })
       .replace(/\n\n/g, '<br>').replace(/\n/g, '<br>');
 
     document.getElementById("free-output").innerHTML = `
