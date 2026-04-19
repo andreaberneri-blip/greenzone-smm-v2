@@ -745,9 +745,8 @@ select.form-ctrl {
 <nav class="nav">
   <button class="nav-tab active" onclick="switchTab('kw',this)"><span class="tab-icon">📊</span> Keyword &amp; Volumi</button>
   <button class="nav-tab" onclick="switchTab('profili',this)"><span class="tab-icon">👤</span> Profili Instagram</button>
-  <button class="nav-tab" onclick="switchTab('persona',this)"><span class="tab-icon">🎯</span> Buyer Persona</button>
+  <button class="nav-tab" onclick="switchTab('persona',this)"><span class="tab-icon">🎯</span> Trova Clienti</button>
   <button class="nav-tab" onclick="switchTab('chi',this)"><span class="tab-icon">🔗</span> Chi Segue Chi</button>
-  <button class="nav-tab" onclick="switchTab('ai',this)"><span class="tab-icon">✦</span> Analisi Target AI</button>
 </nav>
 
 <main class="main">
@@ -867,15 +866,14 @@ select.form-ctrl {
 <div class="section" id="sec-persona">
   <div class="page-head">
     <div class="page-title">Trova clienti su Instagram</div>
-    <div class="page-sub">Configura il target e ottieni ricerche reali e operative — keyword, location, bio, hashtag, Google</div>
+    <div class="page-sub">Configura il target e ottieni ricerche operative — keyword, hashtag, location, bio, Google</div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
 
-    <!-- FORM -->
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
 
-      <div style="background:var(--green-light);border:1px solid rgba(26,77,46,0.15);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--green);line-height:1.6">
+      <div style="background:var(--green-light);border:1px solid rgba(26,77,46,0.15);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:20px;font-size:12px;color:var(--green);line-height:1.6">
         Precompilato con esempio reale: <strong>DODICIVENTUNO</strong> — borse artigianali made in Italy. Sovrascrivilo con i dati del tuo cliente.
       </div>
 
@@ -884,21 +882,10 @@ select.form-ctrl {
         placeholder="es. borse artigianali, trattamenti estetici, corsi di yoga..."
         value="Borse artigianali made in Italy — brand DODICIVENTUNO (dl1221.com) — accessori minimalisti premium" />
 
-      <label class="form-label">Settore (selezione multipla)</label>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="settore-pills">
-        <button class="mpill on" data-val="moda" onclick="togglePill(this)">Moda / fashion</button>
-        <button class="mpill" data-val="beauty" onclick="togglePill(this)">Beauty / estetica</button>
-        <button class="mpill" data-val="food" onclick="togglePill(this)">Food / ristorazione</button>
-        <button class="mpill" data-val="professioni" onclick="togglePill(this)">Professioni</button>
-        <button class="mpill" data-val="coaching" onclick="togglePill(this)">Coaching / consulenza</button>
-        <button class="mpill" data-val="fitness" onclick="togglePill(this)">Fitness / wellness</button>
-        <button class="mpill" data-val="tech" onclick="togglePill(this)">Tech / startup</button>
-        <button class="mpill" data-val="lusso" onclick="togglePill(this)">Lusso / premium</button>
-        <button class="mpill" data-val="artigiani" onclick="togglePill(this)">Artigiani / PMI</button>
-        <button class="mpill" data-val="famiglia" onclick="togglePill(this)">Famiglia / genitori</button>
-        <button class="mpill" data-val="creator" onclick="togglePill(this)">Creator</button>
-        <button class="mpill" data-val="immobiliare" onclick="togglePill(this)">Immobiliare</button>
-      </div>
+      <label class="form-label">Settore / tipo di cliente (campo libero)</label>
+      <input class="form-ctrl" id="bp-settore" type="text"
+        placeholder="es. professioniste milanesi appassionate di moda, imprenditrici del lusso, interior designer..."
+        value="Donne professioniste o imprenditrici appassionate di moda minimalista e accessori di qualità" />
 
       <label class="form-label">Età (selezione multipla)</label>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="eta-pills">
@@ -911,12 +898,12 @@ select.form-ctrl {
 
       <label class="form-label">Genere</label>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="genere-pills">
+        <button class="mpill on" data-val="non specificato" onclick="togglePill(this)">Non specificato</button>
         <button class="mpill on" data-val="donna" onclick="togglePill(this)">Donna</button>
         <button class="mpill" data-val="uomo" onclick="togglePill(this)">Uomo</button>
-        <button class="mpill" data-val="misto" onclick="togglePill(this)">Misto</button>
       </div>
 
-      <label class="form-label">Città / Area geografica (selezione multipla)</label>
+      <label class="form-label">Città / Zona (selezione multipla)</label>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="geo-pills">
         <button class="mpill on" data-val="Milano" onclick="togglePill(this)">Milano</button>
         <button class="mpill on" data-val="Torino" onclick="togglePill(this)">Torino</button>
@@ -926,29 +913,28 @@ select.form-ctrl {
         <button class="mpill" data-val="Firenze" onclick="togglePill(this)">Firenze</button>
         <button class="mpill" data-val="Napoli" onclick="togglePill(this)">Napoli</button>
         <button class="mpill" data-val="Nord Italia" onclick="togglePill(this)">Nord Italia</button>
-        <button class="mpill" data-val="Centro Italia" onclick="togglePill(this)">Centro Italia</button>
+        <button class="mpill" data-val="Sud Italia" onclick="togglePill(this)">Sud Italia</button>
       </div>
-      <input class="form-ctrl" id="bp-geo-custom" type="text"
-        style="margin-bottom:14px"
-        placeholder="Aggiungi città personalizzata..." />
+      <input class="form-ctrl" id="bp-geo-custom" type="text" style="margin-bottom:14px"
+        placeholder="Altra città o zona..." />
 
-      <label class="form-label">Capacità di spesa</label>
+      <label class="form-label">Capacità di spesa (selezione multipla)</label>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="spesa-pills">
-        <button class="mpill" data-val="entry">Entry (€100–400/mese)</button>
-        <button class="mpill" data-val="mid">Media (€400–1.000)</button>
-        <button class="mpill on" data-val="high">Alta (€1.000–3.000)</button>
-        <button class="mpill on" data-val="premium">Premium (€3.000+)</button>
+        <button class="mpill" data-val="entry" onclick="togglePill(this)">Entry €100–400</button>
+        <button class="mpill" data-val="mid" onclick="togglePill(this)">Media €400–1.000</button>
+        <button class="mpill on" data-val="high" onclick="togglePill(this)">Alta €1.000–3.000</button>
+        <button class="mpill on" data-val="premium" onclick="togglePill(this)">Premium €3.000+</button>
       </div>
 
-      <label class="form-label">Tipo di ricerca da generare (selezione multipla)</label>
+      <label class="form-label">Tipo di ricerche da generare</label>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="search-pills">
-        <button class="mpill on" data-val="hashtag">Hashtag Instagram</button>
-        <button class="mpill on" data-val="keyword">Keyword ricerca IG</button>
-        <button class="mpill on" data-val="location">Location tag</button>
-        <button class="mpill on" data-val="bio">Parole chiave bio</button>
-        <button class="mpill on" data-val="google">Ricerca Google</button>
-        <button class="mpill" data-val="tiktok">TikTok</button>
-        <button class="mpill" data-val="linkedin">LinkedIn</button>
+        <button class="mpill on" data-val="hashtag" onclick="togglePill(this)">Hashtag IG</button>
+        <button class="mpill on" data-val="keyword" onclick="togglePill(this)">Keyword IG</button>
+        <button class="mpill on" data-val="location" onclick="togglePill(this)">Location IG</button>
+        <button class="mpill on" data-val="bio" onclick="togglePill(this)">Parole bio</button>
+        <button class="mpill on" data-val="google" onclick="togglePill(this)">Google</button>
+        <button class="mpill" data-val="linkedin" onclick="togglePill(this)">LinkedIn</button>
+        <button class="mpill" data-val="tiktok" onclick="togglePill(this)">TikTok</button>
       </div>
 
       <label class="form-label">Interessi specifici</label>
@@ -961,19 +947,15 @@ select.form-ctrl {
       </div>
     </div>
 
-    <!-- OUTPUT -->
     <div id="persona-output">
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
-        <div style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:12px">Configura i filtri e clicca <strong>Trova clienti</strong>.</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:12px">Otterrai ricerche operative su più canali:</div>
-        <ul style="padding-left:18px">
-          <li style="font-size:13px;color:var(--text2);margin-bottom:5px">Hashtag cliccabili → aprono Instagram</li>
-          <li style="font-size:13px;color:var(--text2);margin-bottom:5px">Keyword → ricerca diretta su IG</li>
-          <li style="font-size:13px;color:var(--text2);margin-bottom:5px">Location tag → post geolocalizzati</li>
-          <li style="font-size:13px;color:var(--text2);margin-bottom:5px">Parole chiave bio → come filtrare i profili</li>
-          <li style="font-size:13px;color:var(--text2);margin-bottom:5px">Ricerche Google → trovare profili IG via Google</li>
-          <li style="font-size:13px;color:var(--text2)">DM pronto da inviare</li>
-        </ul>
+        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:10px">Come funziona</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:10px">L'AI genera ricerche operative per trovare profili reali in target — non influencer, ma persone comuni che potrebbero acquistare il prodotto.</p>
+        <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:10px">I pulsanti nell'output aprono direttamente Instagram o Google con la ricerca già impostata. <strong>Devi essere loggato su Instagram</strong> nel browser per vedere i risultati.</p>
+        <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:10px">Per ogni profilo trovato: guarda i like sui post di chi segue — quelle persone sono i tuoi clienti ideali.</p>
+        <div style="background:var(--amber-bg);border-radius:var(--r-sm);padding:10px 12px;font-size:11px;color:var(--amber);line-height:1.6">
+          <strong>Nota:</strong> Instagram richiede login per vedere i risultati di ricerca. Apri il sito su un browser dove sei già loggato su Instagram.
+        </div>
       </div>
     </div>
   </div>
@@ -1051,108 +1033,6 @@ select.form-ctrl {
   <div class="segment-grid" id="chi-grid"></div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SECTION 5: AI TARGET
-════════════════════════════════════════ -->
-<div class="section" id="sec-ai">
-  <div class="page-head">
-    <div class="page-title">Analisi Target con AI</div>
-    <div class="page-sub">Descrivi il tuo cliente ideale — genera un prompt ottimizzato da usare su Claude.ai con un click</div>
-  </div>
-
-  <div class="ai-form-wrap">
-    <div class="ai-form">
-      <div class="form-title">Descrivi il target</div>
-
-      <label class="form-label">Cliente ideale</label>
-      <textarea class="form-ctrl" id="tgt-desc" placeholder="Es: Titolari di ristoranti 35-55 anni nel nord Italia, presenti sui social ma senza strategia, vogliono più prenotazioni e visibilità online..."></textarea>
-
-      <label class="form-label">Settore</label>
-      <select class="form-ctrl" id="tgt-settore">
-        <option value="">Seleziona settore</option>
-        <option value="moda" selected>Moda / fashion / retail</option>
-        <option value="ristorazione">Ristorazione / food &amp; beverage</option>
-        <option value="professioni">Professionisti (avvocati, medici, coach)</option>
-        <option value="ecommerce">E-commerce / negozio online</option>
-        <option value="artigiani">Artigiani / PMI locali</option>
-        <option value="immobiliare">Immobiliare / real estate</option>
-        <option value="benessere">Benessere / fitness / wellness</option>
-        <option value="tech">Tech / startup / SaaS</option>
-        <option value="beauty">Beauty / parrucchieri / estetiste</option>
-        <option value="eventi">Organizzatori eventi / wedding</option>
-        <option value="lusso">Lusso / premium brand</option>
-      </select>
-
-      <label class="form-label">Budget mensile stimato</label>
-      <select class="form-ctrl" id="tgt-budget">
-        <option value="low">€ 200–500 / mese (entry)</option>
-        <option value="mid" selected>€ 500–1.500 / mese (PMI)</option>
-        <option value="high">€ 1.500+ / mese (strutturato)</option>
-      </select>
-
-      <label class="form-label">Obiettivo principale</label>
-      <select class="form-ctrl" id="tgt-obj">
-        <option value="visibilita">Aumentare visibilità / follower</option>
-        <option value="clienti">Trovare nuovi clienti</option>
-        <option value="branding">Costruire personal brand</option>
-        <option value="vendite">Aumentare vendite e-commerce</option>
-        <option value="community">Costruire community</option>
-      </select>
-
-      <label class="form-label">Piattaforma principale</label>
-      <select class="form-ctrl" id="tgt-plat">
-        <option value="instagram">Instagram</option>
-        <option value="tiktok">TikTok</option>
-        <option value="linkedin">LinkedIn</option>
-        <option value="multi">Multi-piattaforma</option>
-      </select>
-
-      <div style="margin-top:18px">
-        <button class="btn btn-primary" onclick="runAI()">Genera prompt →</button>
-      </div>
-    </div>
-
-    <div id="ai-output">
-      <div class="ai-result">
-        <div class="ai-result-title">Come funziona</div>
-        <p>Compila il form e clicca <strong>Genera prompt →</strong></p>
-        <p>Otterrai un prompt ottimizzato con due opzioni:</p>
-        <ul>
-          <li><strong>Apri su Claude.ai</strong> — si apre direttamente con il prompt precompilato</li>
-          <li><strong>Copia prompt</strong> — incollalo su Claude, ChatGPT, Gemini o qualsiasi AI</li>
-        </ul>
-        <p>Il prompt include: keyword Google, pain point social, idee contenuto, profili da seguire, pitch di acquisizione e red flag del cliente difficile.</p>
-        <div style="margin-top:14px;padding:12px 14px;background:var(--green-light);border-radius:6px;font-size:12px;color:var(--green)">
-          <strong>Nessuna API key necessaria</strong> — funziona su qualsiasi hosting statico, incluso GitHub Pages.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- SEZIONE LIBERA -->
-<div style="margin-top:48px;padding-top:32px;border-top:2px solid var(--border)">
-  <div style="margin-bottom:20px">
-    <div style="font-family:'Segoe UI',system-ui,sans-serif;font-weight:700;font-size:20px;color:var(--text);margin-bottom:6px">Ricerca libera</div>
-    <div style="font-size:13px;color:var(--text3)">Descrivi in parole tue cosa cerchi — ottieni lo stesso output strutturato: profili, hashtag, query e DM</div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
-      <label class="form-label">Descrivi liberamente cosa cerchi</label>
-      <textarea id="free-query" class="form-ctrl" style="height:160px;resize:vertical" placeholder="es. Cerco donne tra 35 e 50 anni di Milano che acquistano borse di qualità, appassionate di moda minimalista, con lavoro da professionista o imprenditrice. Voglio proporre il brand DODICIVENTUNO, borse artigianali made in Italy..."></textarea>
-      <div style="margin-top:14px">
-        <button class="btn btn-primary" onclick="freeSearch()" style="width:100%;font-size:14px;padding:13px">Cerca profili →</button>
-      </div>
-    </div>
-    <div id="free-output">
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
-        <div style="font-size:13px;color:var(--text2);line-height:1.65">Scrivi la tua ricerca a sinistra e clicca <strong>Cerca profili</strong>.<br><br>Puoi essere generico o specifico — più dettagli dai, più precisi saranno i profili trovati.</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 </main>
 
@@ -2246,149 +2126,105 @@ function getMS(id) {
 function togglePill(btn) {
   btn.classList.toggle("on");
 }
-
 function getSelected(containerId) {
   return [...document.querySelectorAll("#" + containerId + " .mpill.on")].map(b => b.dataset.val);
 }
 
 /* ══════════ INSTAGRAM PROFILE FINDER ══════════ */
 async function generateFinder() {
-  const prodotto = document.getElementById("bp-prodotto").value.trim();
-  const settori = getSelected("settore-pills");
-  const eta = getSelected("eta-pills");
-  const genere = getSelected("genere-pills");
-  const geo = getSelected("geo-pills");
-  const geoCustom = document.getElementById("bp-geo-custom").value.trim();
-  const spesa = getSelected("spesa-pills");
+  const prodotto = (document.getElementById("bp-prodotto").value || "").trim();
+  const settore  = (document.getElementById("bp-settore").value  || "").trim();
+  const eta      = getSelected("eta-pills");
+  const genere   = getSelected("genere-pills").filter(v => v !== "non specificato");
+  const geo      = getSelected("geo-pills");
+  const geoCustom= (document.getElementById("bp-geo-custom").value || "").trim();
+  const spesa    = getSelected("spesa-pills");
   const searchTypes = getSelected("search-pills");
-  const interessi = document.getElementById("bp-interessi").value.trim();
+  const interessi= (document.getElementById("bp-interessi").value || "").trim();
 
-  if (!prodotto && settori.length === 0) {
-    document.getElementById("persona-output").innerHTML = '<div style="background:var(--amber-bg);border:1px solid rgba(122,82,0,0.15);border-radius:var(--r);padding:20px;font-size:13px;color:var(--amber)">Inserisci almeno <strong>cosa vuoi vendere</strong> o seleziona un <strong>settore</strong>.</div>';
+  if (!prodotto && !settore) {
+    document.getElementById("persona-output").innerHTML = '<div style="background:var(--amber-bg);border:1px solid rgba(122,82,0,0.15);border-radius:var(--r);padding:16px;font-size:13px;color:var(--amber)">Inserisci <strong>cosa vuoi vendere</strong> o <strong>il tipo di cliente</strong>.</div>';
     return;
   }
 
-  const spesaMap = {entry:"bassa (€100–400/mese)",mid:"media (€400–1.000/mese)",high:"alta (€1.000–3.000/mese)",premium:"premium (€3.000+/mese)"};
+  const spesaMap = {entry:"bassa €100–400/mese", mid:"media €400–1.000/mese", high:"alta €1.000–3.000/mese", premium:"premium €3.000+/mese"};
   const allGeo = [...geo, ...(geoCustom ? [geoCustom] : [])];
 
-  const caratteristiche = [
-    prodotto ? "Prodotto: " + prodotto : null,
-    settori.length ? "Settore: " + settori.join(", ") : null,
+  const target = [
+    prodotto   ? "Prodotto/servizio: " + prodotto : null,
+    settore    ? "Tipo di cliente: " + settore    : null,
     eta.length ? "Età: " + eta.join(", ") + " anni" : null,
     genere.length ? "Genere: " + genere.join(", ") : null,
-    allGeo.length ? "Zone: " + allGeo.join(", ") : null,
-    spesa.length ? "Capacità di spesa: " + spesa.map(s => spesaMap[s]||s).join(", ") : null,
-    interessi ? "Interessi: " + interessi : null,
+    allGeo.length ? "Zona: " + allGeo.join(", ") : null,
+    spesa.length  ? "Capacità di spesa: " + spesa.map(s=>spesaMap[s]||s).join(", ") : null,
+    interessi  ? "Interessi: " + interessi : null,
   ].filter(Boolean).join("\n");
 
-  const searchInstructions = [
-    searchTypes.includes("hashtag") ? "- Fornisci 5 HASHTAG Instagram con formato: HASHTAG: #nome → spiegazione" : null,
-    searchTypes.includes("keyword") ? "- Fornisci 4 KEYWORD da cercare nella barra IG con formato: CERCA: parola chiave → cosa troverai" : null,
-    searchTypes.includes("location") ? "- Fornisci 3 LOCATION TAG da esplorare con formato: LOCATION: nome posto → perché è rilevante" : null,
-    searchTypes.includes("bio") ? "- Fornisci 4 PAROLE BIO: termini che le persone giuste scrivono nella loro bio Instagram" : null,
-    searchTypes.includes("google") ? "- Fornisci 3 RICERCHE GOOGLE nel formato: GOOGLE: query di ricerca → cosa troverai (usa operatori come site:instagram.com)" : null,
-    searchTypes.includes("tiktok") ? "- Fornisci 3 RICERCHE TIKTOK: keyword o hashtag da cercare su TikTok" : null,
-    searchTypes.includes("linkedin") ? "- Fornisci 3 RICERCHE LINKEDIN: termini, titoli o aziende da cercare" : null,
+  const blocks = [
+    searchTypes.includes("hashtag")  ? "HASHTAG: fornisci 4 hashtag reali italiani usati da questo target (non da influencer). Formato: HASHTAG: #nome — spiegazione breve" : null,
+    searchTypes.includes("keyword")  ? "KEYWORD: fornisci 4 parole chiave da cercare nella barra di Instagram. Formato: CERCA: parola chiave — cosa troverai" : null,
+    searchTypes.includes("location") ? "LOCATION: fornisci 3 luoghi italiani da esplorare su Instagram. Formato: LOCATION: nome luogo — perché è rilevante" : null,
+    searchTypes.includes("bio")      ? "BIO: fornisci 4 parole o frasi che il target scrive nella sua bio Instagram. Formato: PAROLE BIO: termine1, termine2, termine3, termine4" : null,
+    searchTypes.includes("google")   ? "GOOGLE: fornisci 3 ricerche Google per trovare profili Instagram del target. Formato: GOOGLE: site:instagram.com query — cosa troverai" : null,
+    searchTypes.includes("linkedin") ? "LINKEDIN: fornisci 3 ricerche LinkedIn. Formato: LINKEDIN: query — cosa troverai" : null,
+    searchTypes.includes("tiktok")   ? "TIKTOK: fornisci 3 ricerche TikTok. Formato: TIKTOK: query — cosa troverai" : null,
   ].filter(Boolean).join("\n");
 
-  const prompt = `Sei un esperto di marketing digitale italiano nel 2026. Devo trovare potenziali clienti reali per proporre: ${prodotto || "i miei servizi"}.
+  const prompt = `Sei un esperto di marketing digitale italiano 2026.
+Prodotto: ${prodotto || settore}
 
 TARGET:
-${caratteristiche}
+${target}
 
-IMPORTANTE: NON inventare profili o handle Instagram. Fornisci SOLO ricerche operative che permettono di trovare persone reali.
+Genera SOLO questo output, senza introduzioni:
 
-Fornisci questo output strutturato con le sezioni richieste:
-
-## Profilo del cliente ideale
-Descrizione in 3 righe: chi è, cosa pubblica online, come si riconosce.
+## Profilo del cliente reale
+2 righe: chi è questa persona, cosa pubblica su Instagram, come si riconosce scorrendo il feed.
 
 ## Ricerche operative
-${searchInstructions}
+${blocks}
 
-## Come qualificare un profilo
-5 segnali concreti che confermano che il profilo trovato è davvero in target.
+## Come qualificarlo in 30 secondi
+4 segnali rapidi da guardare nel profilo per capire se vale la pena contattarlo.
 
 ## DM pronto
-Messaggio 4-5 righe, umano e specifico sul prodotto. Usa [NOME] come placeholder.`;
+Messaggio 3-4 righe, diretto e umano. Inizia con "Ciao [NOME]". Nomina il prodotto in modo specifico. Zero tono commerciale.`;
 
   document.getElementById("persona-output").innerHTML = `
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:32px;text-align:center">
-      <div style="display:inline-flex;align-items:center;gap:12px;color:var(--text3);font-size:13px">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:28px;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:10px;color:var(--text3);font-size:13px">
         <div class="dot-pulse"><span></span><span></span><span></span></div>
-        Ricerca in corso...
+        Generando ricerche...
       </div>
     </div>`;
 
   try {
     const resp = await fetch("/api/claude", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [{ role: "user", content: prompt }] })
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({messages:[{role:"user",content:prompt}]})
     });
-
     let data;
-    const rawText = await resp.text();
-    try { data = JSON.parse(rawText); } catch(e) { throw new Error("Risposta non valida: " + rawText.slice(0,200)); }
-    if (!resp.ok) throw new Error("API error " + resp.status + ": " + (data.error?.message || JSON.stringify(data.error)));
+    const raw = await resp.text();
+    try { data = JSON.parse(raw); } catch(e) { throw new Error("Risposta non valida: " + raw.slice(0,150)); }
+    if (!resp.ok) throw new Error("Errore " + resp.status + ": " + (data.error?.message || JSON.stringify(data.error)));
     if (data.error) throw new Error(typeof data.error === "string" ? data.error : JSON.stringify(data.error));
 
     const txt = data.content?.find(b => b.type === "text")?.text || "";
-    const rendered = renderOutput(txt);
-
     document.getElementById("persona-output").innerHTML = `
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
-          <div style="font-family:Segoe UI,system-ui,sans-serif;font-weight:700;font-size:15px;color:var(--green)">Ricerche pronte ✓</div>
-          <button onclick="generateFinder()" style="font-family:inherit;font-size:12px;padding:6px 12px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer">Rigenera</button>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <span style="font-family:Segoe UI,system-ui,sans-serif;font-weight:700;font-size:14px;color:var(--green)">Ricerche pronte ✓</span>
+          <button onclick="generateFinder()" style="font-family:inherit;font-size:11px;padding:5px 10px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text3);cursor:pointer">Rigenera</button>
         </div>
-        <div style="font-size:13px;line-height:1.8;color:var(--text2)">${rendered}</div>
+        <div style="font-size:13px;line-height:1.8;color:var(--text2)">${renderOutput(txt)}</div>
       </div>`;
-
   } catch(e) {
-    const errMsg = e && e.message ? e.message : JSON.stringify(e);
     document.getElementById("persona-output").innerHTML = `
-      <div style="background:var(--coral-bg);border:1px solid rgba(139,37,0,0.15);border-radius:var(--r);padding:20px;font-size:13px;color:var(--coral)">
-        <strong>Errore:</strong> ${errMsg}
+      <div style="background:var(--coral-bg);border:1px solid rgba(139,37,0,0.15);border-radius:var(--r);padding:16px;font-size:13px;color:var(--coral)">
+        <strong>Errore:</strong> ${e && e.message ? e.message : JSON.stringify(e)}
       </div>`;
   }
-}
-
-/* ══════════ SHARED RENDER FUNCTION ══════════ */
-function renderOutput(txt) {
-  return txt
-    .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text)">$1</strong>')
-    .replace(/(?:HASHTAG: )?(#[a-zA-Z][\w]{2,})\s*(?:→|—)\s*([^\n<]*)/g, (m, tag, desc) => {
-      const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
-      return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--green2);text-decoration:none">${tag} ↗</a>${desc ? '<span style="font-size:12px;color:var(--text3)">' + desc.trim() + '</span>' : ''}</div>`;
-    })
-    .replace(/^(#[a-zA-Z][\w]{2,})([^\n<→—]*?)$/gm, (m, tag, rest) => {
-      if (m.includes("↗")) return m;
-      const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
-      return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--green2);text-decoration:none">${tag} ↗</a>${rest ? '<span style="font-size:12px;color:var(--text3)">' + rest.trim() + '</span>' : ''}</div>`;
-    })
-    .replace(/CERCA: ([^\n→—]+?)\s*(?:→|—)\s*([^\n]*)/g, (m, q, desc) => {
-      const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(q.trim());
-      return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--green);text-decoration:none">&#128269; ${q.trim()} ↗</a>${desc ? '<span style="font-size:12px;color:var(--text3)">' + desc.trim() + '</span>' : ''}</div>`;
-    })
-    .replace(/LOCATION: ([^\n→—]+?)\s*(?:→|—)\s*([^\n]*)/g, (m, loc, desc) => {
-      const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(loc.trim());
-      return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--amber);text-decoration:none">&#128205; ${loc.trim()} ↗</a>${desc ? '<span style="font-size:12px;color:var(--text3)">' + desc.trim() + '</span>' : ''}</div>`;
-    })
-    .replace(/GOOGLE: ([^\n]+?)\s*(?:→|—)\s*([^\n]*)/g, (m, q, desc) => {
-      const url = "https://www.google.com/search?q=" + encodeURIComponent(q.trim());
-      return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--blue);text-decoration:none">G ${q.trim()} ↗</a>${desc ? '<span style="font-size:12px;color:var(--text3)">' + desc.trim() + '</span>' : ''}</div>`;
-    })
-    .replace(/PAROLE BIO: ([^\n]+)/g, (m, words) => {
-      const pills = words.split(",").map(w => w.trim()).filter(Boolean).map(w =>
-        `<span style="font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;background:var(--purple-bg);color:var(--purple);border:1px solid rgba(74,26,122,0.15)">${w}</span>`
-      ).join(" ");
-      return `<div style="margin:7px 0"><span style="font-size:11px;color:var(--text3);margin-right:6px">Cerca in bio:</span>${pills}</div>`;
-    })
-    .replace(/^(\d+[\.\)]) (.+)$/gm, '<div style="margin:4px 0;padding-left:4px;font-size:13px;color:var(--text2)"><strong style="color:var(--text)">$1</strong> $2</div>')
-    .replace(/\n\n/g, '<br>')
-    .replace(/\n/g, '<br>');
 }
 
 /* ══════════ FREE SEARCH ══════════ */
