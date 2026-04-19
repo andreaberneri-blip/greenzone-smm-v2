@@ -838,16 +838,16 @@ select.form-ctrl {
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
 
       <div style="background:var(--green-light);border:1px solid rgba(26,77,46,0.15);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--green);line-height:1.6">
-        Compila i campi per il tuo cliente (es. medico estetico) o per il cliente del tuo cliente (es. pazienti di un medico estetico).
+        Precompilato con esempio reale: <strong>DODICIVENTUNO</strong> — borse artigianali made in Italy. Sovrascrivilo con i dati del tuo cliente.
       </div>
 
       <label class="form-label">Cosa vuoi vendere / promuovere</label>
-      <input class="form-ctrl" id="bp-prodotto" type="text" placeholder="es. trattamenti estetici, abbigliamento donna, corsi di yoga..." />
+      <input class="form-ctrl" id="bp-prodotto" type="text" placeholder="es. trattamenti estetici, abbigliamento donna, corsi di yoga..." value="Borse artigianali made in Italy — brand DODICIVENTUNO (dl1221.com) — accessori minimalisti premium" />
 
       <label class="form-label">Settore del cliente potenziale</label>
       <select class="form-ctrl" id="bp-settore">
         <option value="">Seleziona settore</option>
-        <option value="moda">Moda / fashion / retail</option>
+        <option value="moda" selected>Moda / fashion / retail</option>
         <option value="beauty">Beauty / estetica / benessere</option>
         <option value="food">Food / ristorazione / ospitalità</option>
         <option value="professioni">Professioni (avvocato, medico, notaio)</option>
@@ -866,7 +866,7 @@ select.form-ctrl {
         <option value="">Qualsiasi</option>
         <option value="18-24">18–24 (Gen Z)</option>
         <option value="25-34">25–34 (Millennial)</option>
-        <option value="35-44">35–44</option>
+        <option value="35-44" selected>35–44</option>
         <option value="45-54">45–54 (Gen X)</option>
         <option value="55+">55+</option>
       </select>
@@ -874,19 +874,19 @@ select.form-ctrl {
       <label class="form-label">Genere</label>
       <select class="form-ctrl" id="bp-genere">
         <option value="">Qualsiasi</option>
-        <option value="donna">Donna</option>
+        <option value="donna" selected>Donna</option>
         <option value="uomo">Uomo</option>
       </select>
 
       <label class="form-label">Città / Area geografica</label>
-      <input class="form-ctrl" id="bp-geo" type="text" placeholder="es. Milano, Roma, Napoli, nord Italia..." />
+      <input class="form-ctrl" id="bp-geo" type="text" placeholder="es. Milano, Roma, Napoli, nord Italia..." value="Nord Italia — Milano, Torino, Venezia, Bologna" />
 
       <label class="form-label">Capacità di spesa</label>
       <select class="form-ctrl" id="bp-spesa">
         <option value="">Qualsiasi</option>
         <option value="low">Bassa (acquisti occasionali, prodotti entry)</option>
         <option value="mid">Media (spende con consapevolezza)</option>
-        <option value="high">Alta (acquisti premium, servizi professionali)</option>
+        <option value="high" selected>Alta (acquisti premium, servizi professionali)</option>
         <option value="premium">Premium / luxury</option>
       </select>
 
@@ -900,7 +900,7 @@ select.form-ctrl {
       </select>
 
       <label class="form-label">Interessi specifici (opzionale)</label>
-      <input class="form-ctrl" id="bp-interessi" type="text" placeholder="es. skincare, viaggi di lusso, cucina vegana..." />
+      <input class="form-ctrl" id="bp-interessi" type="text" placeholder="es. skincare, viaggi di lusso, cucina vegana..." value="moda minimalista, accessori qualità, made in Italy, design, artigianalità" />
 
       <div style="margin-top:20px">
         <button class="btn btn-primary" onclick="generateFinder()" style="width:100%;font-size:14px;padding:13px">Trova profili Instagram →</button>
@@ -996,7 +996,7 @@ select.form-ctrl {
       <label class="form-label">Settore</label>
       <select class="form-ctrl" id="tgt-settore">
         <option value="">Seleziona settore</option>
-        <option value="moda">Moda / fashion / retail</option>
+        <option value="moda" selected>Moda / fashion / retail</option>
         <option value="ristorazione">Ristorazione / food &amp; beverage</option>
         <option value="professioni">Professionisti (avvocati, medici, coach)</option>
         <option value="ecommerce">E-commerce / negozio online</option>
@@ -1051,6 +1051,30 @@ select.form-ctrl {
         <div style="margin-top:14px;padding:12px 14px;background:var(--green-light);border-radius:6px;font-size:12px;color:var(--green)">
           <strong>Nessuna API key necessaria</strong> — funziona su qualsiasi hosting statico, incluso GitHub Pages.
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SEZIONE LIBERA -->
+<div style="margin-top:48px;padding-top:32px;border-top:2px solid var(--border)">
+  <div style="margin-bottom:20px">
+    <div style="font-family:'Segoe UI',system-ui,sans-serif;font-weight:700;font-size:20px;color:var(--text);margin-bottom:6px">Ricerca libera</div>
+    <div style="font-size:13px;color:var(--text3)">Descrivi in parole tue cosa cerchi — ottieni lo stesso output strutturato: profili, hashtag, query e DM</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
+      <label class="form-label">Descrivi liberamente cosa cerchi</label>
+      <textarea id="free-query" class="form-ctrl" style="height:160px;resize:vertical" placeholder="es. Cerco donne tra 35 e 50 anni di Milano che acquistano borse di qualità, appassionate di moda minimalista, con lavoro da professionista o imprenditrice. Voglio proporre il brand DODICIVENTUNO, borse artigianali made in Italy..."></textarea>
+      <div style="margin-top:14px">
+        <button class="btn btn-primary" onclick="freeSearch()" style="width:100%;font-size:14px;padding:13px">Cerca profili →</button>
+      </div>
+    </div>
+    <div id="free-output">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px">
+        <div style="font-size:13px;color:var(--text2);line-height:1.65">Scrivi la tua ricerca a sinistra e clicca <strong>Cerca profili</strong>.<br><br>Puoi essere generico o specifico — più dettagli dai, più precisi saranno i profili trovati.</div>
       </div>
     </div>
   </div>
@@ -2165,29 +2189,31 @@ async function generateFinder() {
     interessi ? "Interessi: " + interessi : null,
   ].filter(Boolean).join("\n");
 
-  const prompt = `Sei un esperto di Instagram marketing italiano nel 2026. Ho bisogno di trovare profili Instagram reali e attivi da contattare per proporre: ${prodotto || "i miei servizi"}.
+  const prompt = `Sei un esperto di Instagram marketing italiano nel 2026. Devo trovare potenziali CLIENTI REALI su Instagram a cui proporre: ${prodotto || "i miei servizi"}.
 
 TARGET:
 ${caratteristiche}
+
+IMPORTANTE: NON cercare influencer, celebrity o account con milioni di follower. Cerco persone comuni, professioniste, piccole imprenditrici, donne reali con account tra 200 e 20.000 follower che potrebbero effettivamente acquistare il prodotto.
 
 Fornisci SOLO questo output, nessuna introduzione:
 
 ## 15 profili Instagram da contattare
 Per ognuno usa esattamente questo formato:
-**@handle** — Nome — X follower — categoria
-Perché è in target: [1 riga]
+**@handle** — Nome — circa X follower — tipo profilo
+Perché è in target: [1 riga specifica]
 Link: https://www.instagram.com/handle/
 
-## 5 hashtag per trovare altri profili simili
-#hashtag — volume stimato — tipo contenuto
+## 5 hashtag dove trovarli
+#hashtag — perché raggiunge questo target specifico
 
-## 3 query di ricerca da usare su Instagram
-Parole chiave da digitare nella barra di ricerca IG
+## 3 query di ricerca Instagram
+Parole chiave da digitare nella barra di ricerca IG per trovare persone reali simili.
 
 ## DM pronto
-Messaggio di 4-5 righe da inviare su Instagram DM. Usa [NOME] come placeholder. Deve sembrare umano, non commerciale.
+Messaggio 4-5 righe, umano e specifico sul prodotto. Usa [NOME] come placeholder.
 
-Usa solo profili italiani reali e verificabili. Non inventare handle.`;
+Solo profili italiani reali e verificabili.`;
 
   // Show loading
   document.getElementById("persona-output").innerHTML = `
@@ -2254,6 +2280,85 @@ Usa solo profili italiani reali e verificabili. Non inventare handle.`;
   }
 }
 
+
+
+/* ══════════ FREE SEARCH ══════════ */
+async function freeSearch() {
+  const query = document.getElementById("free-query").value.trim();
+  if (!query) {
+    document.getElementById("free-output").innerHTML = '<div style="background:var(--amber-bg);border:1px solid rgba(122,82,0,0.15);border-radius:var(--r);padding:20px;font-size:13px;color:var(--amber)">Scrivi prima cosa cerchi.</div>';
+    return;
+  }
+
+  document.getElementById("free-output").innerHTML = `
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:32px;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:12px;color:var(--text3);font-size:13px">
+        <div class="dot-pulse"><span></span><span></span><span></span></div>
+        Ricerca in corso...
+      </div>
+    </div>`;
+
+  const prompt = `Sei un esperto di Instagram marketing italiano nel 2026. ${query}
+
+IMPORTANTE: NON cercare influencer, celebrity o account con milioni di follower. Cerca persone reali, comuni, con account tra 200 e 20.000 follower che potrebbero effettivamente essere interessate.
+
+Fornisci SOLO questo output strutturato, nessuna introduzione:
+
+## 15 profili Instagram da contattare
+Per ognuno usa esattamente questo formato:
+**@handle** — Nome — circa X follower — tipo profilo
+Perché è in target: [1 riga specifica]
+Link: https://www.instagram.com/handle/
+
+## 5 hashtag dove trovarli
+#hashtag — perché raggiunge questo target specifico
+
+## 3 query di ricerca Instagram
+Parole chiave da digitare nella barra di ricerca IG per trovare persone reali simili.
+
+## DM pronto
+Messaggio 4-5 righe, umano e specifico. Usa [NOME] come placeholder.
+
+Solo profili italiani reali e verificabili.`;
+
+  try {
+    const resp = await fetch("/api/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: [{ role: "user", content: prompt }] })
+    });
+
+    let data;
+    const rawText = await resp.text();
+    try { data = JSON.parse(rawText); } catch(e) { throw new Error("Risposta non valida: " + rawText.slice(0,200)); }
+    if (!resp.ok) throw new Error("API error " + resp.status + ": " + (data.error?.message || JSON.stringify(data.error)));
+    if (data.error) throw new Error(typeof data.error === "string" ? data.error : JSON.stringify(data.error));
+
+    const txt = data.content?.find(b => b.type === "text")?.text || "";
+    const rendered = txt
+      .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
+      .replace(/\*\*(@[\w.]+)\*\*/g, '<a href="https://www.instagram.com/$1/" target="_blank" style="font-weight:700;color:var(--green2);text-decoration:none;font-size:14px">$1</a>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/Link: (https:\/\/www\.instagram\.com\/[^\s<]+)/g, '<a href="$1" target="_blank" style="display:inline-block;margin:4px 0 8px;font-size:12px;color:var(--green);text-decoration:none;padding:3px 10px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Apri su Instagram ↗</a>')
+      .replace(/\n\n/g, '<br>').replace(/\n/g, '<br>');
+
+    document.getElementById("free-output").innerHTML = `
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <div style="font-family:Segoe UI,system-ui,sans-serif;font-weight:700;font-size:15px;color:var(--green)">Profili trovati ✓</div>
+          <button onclick="freeSearch()" style="font-family:inherit;font-size:12px;padding:6px 12px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer">Rigenera</button>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:var(--text2)">${rendered}</div>
+      </div>`;
+
+  } catch(e) {
+    const errMsg = e && e.message ? e.message : JSON.stringify(e);
+    document.getElementById("free-output").innerHTML = `
+      <div style="background:var(--coral-bg);border:1px solid rgba(139,37,0,0.15);border-radius:var(--r);padding:20px;font-size:13px;color:var(--coral)">
+        <strong>Errore:</strong> ${errMsg}
+      </div>`;
+  }
+}
 
 /* ══════════════ INIT ══════════════ */
 renderKw();
