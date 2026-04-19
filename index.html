@@ -2194,26 +2194,24 @@ async function generateFinder() {
 TARGET:
 ${caratteristiche}
 
-IMPORTANTE: NON cercare influencer, celebrity o account con milioni di follower. Cerco persone comuni, professioniste, piccole imprenditrici, donne reali con account tra 200 e 20.000 follower che potrebbero effettivamente acquistare il prodotto.
+NON inventare handle o profili. Fornisci SOLO questo output strutturato:
 
-Fornisci SOLO questo output, nessuna introduzione:
+## Profilo del cliente ideale
+3 righe che descrivono chi è questa persona nella vita reale, cosa pubblica su Instagram, come si riconosce.
 
-## 15 profili Instagram da contattare
-Per ognuno usa esattamente questo formato:
-**@handle** — Nome — circa X follower — tipo profilo
-Perché è in target: [1 riga specifica]
-Link: https://www.instagram.com/handle/
+## Come trovarlo su Instagram — 8 ricerche da fare
+Per ognuna fornisci una query cliccabile nel formato esatto:
+CERCA: [parola chiave] → [cosa troverai]
+HASHTAG: #[hashtag] → [tipo di account che lo usa]
 
-## 5 hashtag dove trovarli
-#hashtag — perché raggiunge questo target specifico
+## 5 hashtag principali del target
+#hashtag — perché le persone giuste lo usano
 
-## 3 query di ricerca Instagram
-Parole chiave da digitare nella barra di ricerca IG per trovare persone reali simili.
+## Segnali che un profilo è in target
+5 cose da guardare nel profilo per capire se è la persona giusta da contattare (bio, tipo di post, frequenza, interessi).
 
 ## DM pronto
-Messaggio 4-5 righe, umano e specifico sul prodotto. Usa [NOME] come placeholder.
-
-Solo profili italiani reali e verificabili.`;
+Messaggio 4-5 righe, umano e specifico sul prodotto. Usa [NOME] come placeholder. Non deve sembrare automatico.`;
 
   // Show loading
   document.getElementById("persona-output").innerHTML = `
@@ -2255,10 +2253,16 @@ Solo profili italiani reali e verificabili.`;
     // Render the result
     const rendered = txt
       .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
-      .replace(/\*\*(@[\w.]+)\*\*/g, '<a href="https://www.instagram.com/$1/" target="_blank" style="font-weight:700;color:var(--green2);text-decoration:none;font-size:14px">$1</a>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/Link: (https:\/\/www\.instagram\.com\/[^\s<]+)/g, '<a href="$1" target="_blank" style="display:inline-block;margin:4px 0 8px;font-size:12px;color:var(--green);text-decoration:none;padding:3px 10px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Apri su Instagram ↗</a>')
-      .replace(/^(#[\w]+)/gm, '<span style="font-size:13px;font-weight:600;color:var(--green2)">$1</span>')
+      .replace(/CERCA: ([^→\n]+)→ ([^\n]+)/g, (m, q, desc) => {
+        const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(q.trim());
+        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green);text-decoration:none;padding:5px 12px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Cerca su Instagram: ${q.trim()} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+      })
+      .replace(/HASHTAG: (#[\w]+) → ([^\n]+)/g, (m, tag, desc) => {
+        const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
+        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green2);text-decoration:none;padding:5px 12px;border:1px solid rgba(45,122,79,0.25);border-radius:20px;background:var(--green-light)">${tag} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+      })
+      .replace(/(#[\w]{3,})/g, '<span style="font-weight:600;color:var(--green2)">$1</span>')
       .replace(/\n\n/g, '<br>')
       .replace(/\n/g, '<br>');
 
@@ -2300,26 +2304,24 @@ async function freeSearch() {
 
   const prompt = `Sei un esperto di Instagram marketing italiano nel 2026. ${query}
 
-IMPORTANTE: NON cercare influencer, celebrity o account con milioni di follower. Cerca persone reali, comuni, con account tra 200 e 20.000 follower che potrebbero effettivamente essere interessate.
+NON inventare handle o profili. Fornisci SOLO questo output strutturato:
 
-Fornisci SOLO questo output strutturato, nessuna introduzione:
+## Profilo del cliente ideale
+3 righe che descrivono chi è questa persona nella vita reale, cosa pubblica su Instagram, come si riconosce.
 
-## 15 profili Instagram da contattare
-Per ognuno usa esattamente questo formato:
-**@handle** — Nome — circa X follower — tipo profilo
-Perché è in target: [1 riga specifica]
-Link: https://www.instagram.com/handle/
+## Come trovarlo su Instagram — 8 ricerche da fare
+Per ognuna fornisci una query nel formato esatto:
+CERCA: [parola chiave] → [cosa troverai]
+HASHTAG: #[hashtag] → [tipo di account che lo usa]
 
-## 5 hashtag dove trovarli
-#hashtag — perché raggiunge questo target specifico
+## 5 hashtag principali del target
+#hashtag — perché le persone giuste lo usano
 
-## 3 query di ricerca Instagram
-Parole chiave da digitare nella barra di ricerca IG per trovare persone reali simili.
+## Segnali che un profilo è in target
+5 cose da guardare nel profilo per capire se è la persona giusta (bio, tipo di post, frequenza, interessi).
 
 ## DM pronto
-Messaggio 4-5 righe, umano e specifico. Usa [NOME] come placeholder.
-
-Solo profili italiani reali e verificabili.`;
+Messaggio 4-5 righe, umano e specifico. Usa [NOME] come placeholder. Non deve sembrare automatico.`;
 
   try {
     const resp = await fetch("/api/claude", {
@@ -2337,9 +2339,16 @@ Solo profili italiani reali e verificabili.`;
     const txt = data.content?.find(b => b.type === "text")?.text || "";
     const rendered = txt
       .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
-      .replace(/\*\*(@[\w.]+)\*\*/g, '<a href="https://www.instagram.com/$1/" target="_blank" style="font-weight:700;color:var(--green2);text-decoration:none;font-size:14px">$1</a>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/Link: (https:\/\/www\.instagram\.com\/[^\s<]+)/g, '<a href="$1" target="_blank" style="display:inline-block;margin:4px 0 8px;font-size:12px;color:var(--green);text-decoration:none;padding:3px 10px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Apri su Instagram ↗</a>')
+      .replace(/CERCA: ([^→\n]+)→ ([^\n]+)/g, (m, q, desc) => {
+        const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(q.trim());
+        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green);text-decoration:none;padding:5px 12px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Cerca su Instagram: ${q.trim()} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+      })
+      .replace(/HASHTAG: (#[\w]+) → ([^\n]+)/g, (m, tag, desc) => {
+        const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
+        return `<div style="margin:6px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green2);text-decoration:none;padding:5px 12px;border:1px solid rgba(45,122,79,0.25);border-radius:20px;background:var(--green-light)">${tag} ↗</a><span style="font-size:12px;color:var(--text3)">${desc.trim()}</span></div>`;
+      })
+      .replace(/(#[\w]{3,})/g, '<span style="font-weight:600;color:var(--green2)">$1</span>')
       .replace(/\n\n/g, '<br>').replace(/\n/g, '<br>');
 
     document.getElementById("free-output").innerHTML = `
