@@ -2133,7 +2133,7 @@ function copyPrompt() {
 
 
 /* ══════════ INSTAGRAM PROFILE FINDER ══════════ */
-function generateFinder() {
+async function generateFinder() {
   const prodotto = document.getElementById("bp-prodotto").value.trim();
   const settore = document.getElementById("bp-settore").value;
   const eta = document.getElementById("bp-eta").value;
@@ -2152,106 +2152,97 @@ function generateFinder() {
   const etaMap = {"18-24":"18–24 anni","25-34":"25–34 anni","35-44":"35–44 anni","45-54":"45–54 anni","55+":"55+ anni"};
   const genereMap = {donna:"donne",uomo:"uomini"};
   const spesaMap = {low:"bassa capacità di spesa",mid:"capacità di spesa media",high:"alta capacità di spesa",premium:"spesa premium / luxury"};
-  const followersMap = {nano:"profili piccoli sotto 1.000 follower (utenti normali, non influencer)",micro:"profili tra 1.000 e 10.000 follower (piccole attività, micro-creator)",mid:"profili tra 10.000 e 100.000 follower (attività consolidate, mid influencer)",macro:"profili sopra 100.000 follower (brand affermati, macro influencer)"};
+  const followersMap = {nano:"profili piccoli sotto 1.000 follower (utenti normali)",micro:"profili tra 1.000 e 10.000 follower (piccole attività)",mid:"profili tra 10.000 e 100.000 follower",macro:"profili sopra 100.000 follower"};
 
   const caratteristiche = [
-    prodotto ? `Prodotto/servizio da vendere: ${prodotto}` : null,
-    settore ? `Settore target: ${settoreMap[settore]}` : null,
-    eta ? `Età: ${etaMap[eta]}` : null,
-    genere ? `Genere: ${genereMap[genere]}` : null,
-    geo ? `Zona geografica: ${geo}` : null,
-    spesa ? `Capacità di spesa: ${spesaMap[spesa]}` : null,
-    followers ? `Dimensione account: ${followersMap[followers]}` : null,
-    interessi ? `Interessi specifici: ${interessi}` : null,
+    prodotto ? "Prodotto/servizio: " + prodotto : null,
+    settore ? "Settore: " + (settoreMap[settore]||settore) : null,
+    eta ? "Età: " + (etaMap[eta]||eta) : null,
+    genere ? "Genere: " + (genereMap[genere]||genere) : null,
+    geo ? "Zona: " + geo : null,
+    spesa ? "Capacità di spesa: " + (spesaMap[spesa]||spesa) : null,
+    followers ? "Dimensione account: " + (followersMap[followers]||followers) : null,
+    interessi ? "Interessi: " + interessi : null,
   ].filter(Boolean).join("\n");
 
   const prompt = `Sei un esperto di Instagram marketing italiano nel 2026. Ho bisogno di trovare profili Instagram reali e attivi da contattare per proporre: ${prodotto || "i miei servizi"}.
 
-CARATTERISTICHE DEL TARGET:
+TARGET:
 ${caratteristiche}
 
-Il tuo compito è trovare PROFILI INSTAGRAM ITALIANI REALI che corrispondono a questo target.
-
-Fornisci esattamente questo output:
+Fornisci SOLO questo output, nessuna introduzione:
 
 ## 15 profili Instagram da contattare
-Per ognuno:
-- **@handle** — Nome account — follower stimati — categoria
-- Perché è in target (1 riga)
-- Link diretto: https://instagram.com/[handle]
+Per ognuno usa esattamente questo formato:
+**@handle** — Nome — X follower — categoria
+Perché è in target: [1 riga]
+Link: https://www.instagram.com/handle/
 
-Cerca profili REALI e VERIFICABILI. Privilegia account attivi, con post recenti, bio chiara e attività coerente con il target. Includi un mix di: piccole attività locali, professionisti, creator di nicchia.
+## 5 hashtag per trovare altri profili simili
+#hashtag — volume stimato — tipo contenuto
 
-## 5 hashtag principali dove trovare questo target
-Per ognuno: hashtag + volume stimato + tipo di contenuto
+## 3 query di ricerca da usare su Instagram
+Parole chiave da digitare nella barra di ricerca IG
 
-## Query di ricerca da usare su Instagram
-3 parole chiave da digitare nella barra di ricerca di Instagram per trovare altri profili simili.
+## DM pronto
+Messaggio di 4-5 righe da inviare su Instagram DM. Usa [NOME] come placeholder. Deve sembrare umano, non commerciale.
 
-## DM pronto da inviare
-Un messaggio diretto di 4-5 righe, personalizzato per questo target, per proporre ${prodotto || "i tuoi servizi"}. Deve sembrare umano, non commerciale. Lascia [NOME] come placeholder.
+Usa solo profili italiani reali e verificabili. Non inventare handle.`;
 
-IMPORTANTE: fornisci solo profili che esistono realmente su Instagram. Se non sei sicuro che un profilo esista, non includerlo.`;
-
-  const encoded = encodeURIComponent(prompt);
-  const claudeUrl = "https://claude.ai/new?q=" + encoded;
-
-  // Build summary tags
-  const tags = [
-    prodotto,
-    settore ? settoreMap[settore] : null,
-    eta ? etaMap[eta] : null,
-    genere ? genereMap[genere] : null,
-    geo || null,
-    spesa ? spesaMap[spesa] : null,
-  ].filter(Boolean);
-
+  // Show loading
   document.getElementById("persona-output").innerHTML = `
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)">
-      <div style="font-family:'Segoe UI',system-ui,sans-serif;font-weight:700;font-size:15px;color:var(--green);margin-bottom:10px">Target configurato ✓</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-        ${tags.map(t => `<span style="font-size:11px;padding:3px 9px;border-radius:20px;background:var(--green-light);color:var(--green);border:1px solid rgba(26,77,46,0.15)">${t}</span>`).join("")}
-      </div>
-
-      <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px">
-        Il prompt chiederà a Claude di trovare <strong>15 profili Instagram reali italiani</strong> in target, con handle cliccabili, follower, perché sono in target, hashtag e DM pronto.
-      </p>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <a href="${claudeUrl}" target="_blank"
-          style="display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;font-weight:600;padding:12px;border-radius:var(--r-sm);text-decoration:none;text-align:center;transition:background .15s"
-          onmouseover="this.style.background='#0f3320'" onmouseout="this.style.background='var(--green)'">
-          Apri su Claude.ai →
-        </a>
-        <button onclick="copyFinderPrompt()" id="copy-finder-btn"
-          style="font-family:inherit;font-size:13px;font-weight:500;padding:12px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text);cursor:pointer">
-          Copia prompt
-        </button>
-      </div>
-
-      <div style="background:var(--surface);border-radius:var(--r-sm);padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.6">
-        <strong style="color:var(--text)">Dopo aver ottenuto i profili da Claude:</strong><br>
-        1. Verifica ogni @handle su Instagram prima di contattare<br>
-        2. Guarda le ultime 3 storie / post per personalizzare il DM<br>
-        3. Invia il messaggio nelle prime ore della mattina (8–10) o sera (19–21)
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:32px;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:12px;color:var(--text3);font-size:13px">
+        <div class="dot-pulse"><span></span><span></span><span></span></div>
+        Ricerca profili in corso...
       </div>
     </div>`;
 
-  window._finderPrompt = prompt;
+  try {
+    const resp = await fetch("/api/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok || data.error) {
+      throw new Error(data.error || "Errore API: " + resp.status);
+    }
+
+    const txt = data.content?.find(b => b.type === "text")?.text || "";
+
+    // Render the result
+    const rendered = txt
+      .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
+      .replace(/\*\*(@[\w.]+)\*\*/g, '<a href="https://www.instagram.com/$1/" target="_blank" style="font-weight:700;color:var(--green2);text-decoration:none;font-size:14px">$1</a>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/Link: (https:\/\/www\.instagram\.com\/[^\s<]+)/g, '<a href="$1" target="_blank" style="display:inline-block;margin:4px 0 8px;font-size:12px;color:var(--green);text-decoration:none;padding:3px 10px;border:1px solid rgba(26,77,46,0.25);border-radius:20px;background:var(--green-light)">Apri su Instagram ↗</a>')
+      .replace(/^(#[\w]+)/gm, '<span style="font-size:13px;font-weight:600;color:var(--green2)">$1</span>')
+      .replace(/\n\n/g, '<br>')
+      .replace(/\n/g, '<br>');
+
+    document.getElementById("persona-output").innerHTML = `
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <div style="font-family:Segoe UI,system-ui,sans-serif;font-weight:700;font-size:15px;color:var(--green)">Profili trovati ✓</div>
+          <button onclick="generateFinder()" style="font-family:inherit;font-size:12px;padding:6px 12px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer">Rigenera</button>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:var(--text2)">${rendered}</div>
+      </div>`;
+
+  } catch(e) {
+    document.getElementById("persona-output").innerHTML = `
+      <div style="background:var(--coral-bg);border:1px solid rgba(139,37,0,0.15);border-radius:var(--r);padding:20px;font-size:13px;color:var(--coral)">
+        <strong>Errore:</strong> ${e.message}<br><br>
+        Verifica che la variabile <code>ANTHROPIC_API_KEY</code> sia impostata in Netlify e che il sito sia stato ri-deployato.
+      </div>`;
+  }
 }
 
-function copyFinderPrompt() {
-  if (!window._finderPrompt) return;
-  navigator.clipboard.writeText(window._finderPrompt).then(() => {
-    const btn = document.getElementById("copy-finder-btn");
-    if (btn) { btn.textContent = "Copiato ✓"; btn.style.color = "var(--green)"; setTimeout(() => { btn.textContent = "Copia prompt"; btn.style.color = ""; }, 2000); }
-  }).catch(() => {
-    const t = document.createElement("textarea");
-    t.value = window._finderPrompt; document.body.appendChild(t); t.select(); document.execCommand("copy"); document.body.removeChild(t);
-    const btn = document.getElementById("copy-finder-btn");
-    if (btn) { btn.textContent = "Copiato ✓"; setTimeout(() => { btn.textContent = "Copia prompt"; }, 2000); }
-  });
-}
 
 /* ══════════════ INIT ══════════════ */
 renderKw();
