@@ -1,21 +1,33 @@
-exports.handler = async function (event) {
+exports.handler = async function (event, context) {
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Content-Type": "application/json",
+  };
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers, body: "" };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
+    return { statusCode: 405, headers, body: JSON.stringify({ error: "Method not allowed" }) };
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "API key non configurata in Netlify." })
+      headers,
+      body: JSON.stringify({ error: "ANTHROPIC_API_KEY non trovata" })
     };
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
-  } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: "Body non valido" }) };
+  } catch (e) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: "Body non valido: " + e.message }) };
   }
 
   const payload = {
@@ -34,16 +46,19 @@ exports.handler = async function (event) {
       },
       body: JSON.stringify(payload),
     });
-    const data = await response.json();
+
+    const text = await response.text();
+
     return {
       statusCode: response.status,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      headers,
+      body: text,
     };
   } catch (err) {
     return {
       statusCode: 502,
-      body: JSON.stringify({ error: "Errore: " + err.message }),
+      headers,
+      body: JSON.stringify({ error: "Errore Anthropic: " + err.message })
     };
   }
 };
