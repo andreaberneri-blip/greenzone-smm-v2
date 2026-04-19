@@ -2359,9 +2359,14 @@ function renderOutput(txt) {
   return txt
     .replace(/## (.+)/g, '<h4 style="font-family:Segoe UI,system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--green);margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--border)">$1</h4>')
     .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text)">$1</strong>')
-    .replace(/HASHTAG: (#[\w]+)\s*(?:→|—)\s*([^\n]*)/g, (m, tag, desc) => {
+    .replace(/(?:HASHTAG: )?(#[a-zA-Z][\w]{2,})\s*(?:→|—)\s*([^\n<]*)/g, (m, tag, desc) => {
       const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
       return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--green2);text-decoration:none">${tag} ↗</a>${desc ? '<span style="font-size:12px;color:var(--text3)">' + desc.trim() + '</span>' : ''}</div>`;
+    })
+    .replace(/^(#[a-zA-Z][\w]{2,})([^\n<→—]*?)$/gm, (m, tag, rest) => {
+      if (m.includes("↗")) return m;
+      const url = "https://www.instagram.com/explore/tags/" + tag.replace("#","") + "/";
+      return `<div style="margin:7px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#fff;padding:5px 13px;border-radius:20px;background:var(--green2);text-decoration:none">${tag} ↗</a>${rest ? '<span style="font-size:12px;color:var(--text3)">' + rest.trim() + '</span>' : ''}</div>`;
     })
     .replace(/CERCA: ([^\n→—]+?)\s*(?:→|—)\s*([^\n]*)/g, (m, q, desc) => {
       const url = "https://www.instagram.com/explore/search/keyword/?q=" + encodeURIComponent(q.trim());
